@@ -1,0 +1,30 @@
+[
+    {"Day":"Monday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    },
+    {"Day":"Tuesday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    },
+    {"Day":"Wednesday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    },
+    {"Day":"Thursday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    },
+    {"Day":"Friday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    },
+    {"Day":"Saturday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    },
+    {"Day":"Sunday", 
+        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
+        "AC1P1":"Null","AC2P1":"Null"
+    }
+]
