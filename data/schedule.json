@@ -1,30 +1,30 @@
 [
     {"Day":"Monday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"PT", "FB1P2":"JX", "AC1P1":"Tiff",
+        "AC2P1":"CP", "FB2P1":"JL", "FB2P2":"PT"
     },
     {"Day":"Tuesday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"Null", "FB1P2":"Null", "AC1P1":"Null",
+        "AC2P1":"Null", "FB2P1":"Null", "FB2P2":"Null"
     },
     {"Day":"Wednesday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"Null", "FB1P2":"Null", "AC1P1":"Null",
+        "AC2P1":"Null", "FB2P1":"Null", "FB2P2":"Null"
     },
     {"Day":"Thursday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"Null", "FB1P2":"Null", "AC1P1":"Null",
+        "AC2P1":"Null", "FB2P1":"Null", "FB2P2":"Null"
     },
     {"Day":"Friday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"Null", "FB1P2":"Null", "AC1P1":"Null",
+        "AC2P1":"Null", "FB2P1":"Null", "FB2P2":"Null"
     },
     {"Day":"Saturday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"Null", "FB1P2":"Null", "AC1P1":"Null",
+        "AC2P1":"Null", "FB2P1":"Null", "FB2P2":"Null"
     },
     {"Day":"Sunday", 
-        "FB1P1":"Null","FB1P2":"Null","FB2P1":"Null","FB2P2":"Null",
-        "AC1P1":"Null","AC2P1":"Null"
+        "FB1P1":"Null", "FB1P2":"Null", "AC1P1":"Null",
+        "AC2P1":"Null", "FB2P1":"Null", "FB2P2":"Null"
     }
 ]

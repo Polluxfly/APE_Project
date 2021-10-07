@@ -31,33 +31,30 @@
     <div>
         <form>
             <button id="EditScheduleBtn" type ='Edit'>Edit</button>           
-            <table class="tg" onclick="GetCellLocation()">
+            <table id="scheduleTable" class="tg" onclick="GetCellLocation()">
                 <tr>
                     <td>Week Days\Shift & Departments</td>
                     <td>Shifts</td>
                     <td align="center" colspan="2">F&B</td>
-                    <td>Shifts</td>
                     <td>AC</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td align="center" rowspan="2">Monday</td>
                   <td>Shift 1</td>
                   <td>Name 1</td>
                   <td>Name 2</td>
-                  <td>Shift 1</td>
                   <td>Name 1</td>
                 </tr>
                 <tr>
                     <td>Shift 2</td>
                     <td>Name 1</td>
                     <td>Name 2</td>
-                    <td>Shift 2</td>
                     <td>Name 1</td>
-                </tr>
+                </tr> -->
             </table>   
         </form>
         <form>
-            <table class="tg" onclick="GetCellLocation()">
+            <table id="staffTable" class="tg" onclick="GetCellLocation()">
                 <tr>
                     <td>Staff Name</td>
                     <td>Skill</td>
@@ -65,6 +62,6 @@
             </table>   
         </form>
     </div>
-    <script src="loginPage.js"></script>
+    <script src="mainPage.js"></script>
 </body>
 </html>
