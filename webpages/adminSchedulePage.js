@@ -93,6 +93,7 @@ async function LoadUserName() {
     }
 }
 
+let isCurrentSelectedCellValid = true;
 let SelectedCell = undefined;
 
 function GetCellLocation()
@@ -116,16 +117,28 @@ function GetCellLocation()
                 //  console.log(`Selected Row Index: ${this.rowIndex}`)
                 //  console.log(`Selected Col Index: ${this.positionIndex}`)
                 console.log(table.rows[this.rowIndex].cells[this.positionIndex].innerText)
-                getRowHeaderAndColHeaderText(table, this.rowIndex, this.positionIndex)
-                highlightSelectedCellColor(table.rows[this.rowIndex].cells[this.positionIndex]);
-                LoadUserName()
-                SelectedCell = table.rows[this.rowIndex].cells[this.positionIndex];
-                SelectedCellColor = table.rows[this.rowIndex].cells[this.positionIndex].style.backgroundColor;
-
-                //Get Selected Cell postion & It`s name inside
+                isSelectedCellValid(this.rowIndex, this.positionIndex);
+                if(isCurrentSelectedCellValid)
+                {
+                    getRowHeaderAndColHeaderText(table, this.rowIndex, this.positionIndex)
+                    highlightSelectedCellColor(table.rows[this.rowIndex].cells[this.positionIndex]);
+                    LoadUserName()
+                    SelectedCell = table.rows[this.rowIndex].cells[this.positionIndex];
+                }
             }
         }
     }
+}
+
+function isSelectedCellValid(rowIndex, colIndex)
+{
+    if(rowIndex == 0 || colIndex == 0)
+        isCurrentSelectedCellValid = false;   
+    else if(rowIndex % 2 != 0 && colIndex == 1)
+        isCurrentSelectedCellValid = false;
+    else
+        isCurrentSelectedCellValid = true;
+    
 }
 
 function highlightSelectedCellColor(currentSelectedCell)
@@ -233,6 +246,7 @@ function cleanDropDownList(userGroup)
         userGroup.remove(i);
     }
 }
+
 
 function selectOnChangeEvent()
 {
