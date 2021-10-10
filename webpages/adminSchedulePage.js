@@ -230,7 +230,7 @@ async function LoadUserName() {
         if(data[i].Skill != SelectedDepartment && data[i].Skill != "GAS")
             continue;
 
-        let newUser = new Option(data[i].UserName);
+        let newUser = new Option(`${data[i].UserName}-${data[i].Skill}`);
         console.log(newUser)
         userGroup.options.add(newUser)
       }

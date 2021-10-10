@@ -1,8 +1,8 @@
 [
     {"UserName":"Admin", "Skill":"NULL"},
-    {"UserName":"PT-FB", "Skill":"FB"},
-    {"UserName":"JL-GAS", "Skill":"GAS"},
-    {"UserName":"JX-AC", "Skill":"AC"},
-    {"UserName":"Tiff-FB", "Skill":"FB"},
-    {"UserName":"CP-GAS", "Skill":"GAS"}
+    {"UserName":"PT", "Skill":"FB"},
+    {"UserName":"JL", "Skill":"GAS"},
+    {"UserName":"JX", "Skill":"AC"},
+    {"UserName":"Tiff", "Skill":"FB"},
+    {"UserName":"CP", "Skill":"GAS"}
 ]
