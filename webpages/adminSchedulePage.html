@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Form</title>
+    <link rel='stylesheet' href='mainStyle.css'>
+</head>
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-0lax{text-align:left;vertical-align:top}
+    </style>
+<body>
+    <header>
+        <h1>Swiss Hotel Management System</h1>
+    </header>
+    <div>
+        <form>
+            <h1>Good Day xxx! Please view the schedule below</h1>
+            <label>Selected Week:</label>
+            <select id='selectedWeek'></select> 
+            <!-- <input type="text" id='userid' name='userid' required> -->
+            <br><br> 
+            <button type ='submit' onclick="SubmitUserInfo()">Refresh Page</button>       
+        </form>
+    </div>
+    <div>
+        <form>       
+            <table id="scheduleTable" class="tg" onclick="GetCellLocation()">
+                <tr>
+                    <td>Week Days\Shift & Departments</td>
+                    <td>Shifts</td>
+                    <td align="center" colspan="2">FB</td>
+                    <td>AC</td>
+                </tr>
+            </table>   
+    
+            <div class="SelectedDiv">
+                <h2>Fill up staff names to the table:</h2>
+                <b><label>Step 1. Please Select Cell in table above</label></b>
+                <br>
+                <label>Selected Day: </label>
+                <b><label id="selectedDayLabel"></label></b>
+                <br>
+                <label>Selected Department: </label>
+                <b><label id="selectedDepartmentLabel"></label></b>
+                <br>
+                <label>Selected Shift: </label>
+                <b><label id="selectedShiftLabel"></label></b>
+            </div>
+            <div class="SelectedDiv">
+                <b><label>Step 2. Please Select User in dropdown list to replace Cell</label></b>
+                <select id="userName" onchange="selectOnChangeEvent()">
+                </select>
+                <br><br><br>
+            </div>
+        </form>
+    </div>
+    <script src="adminSchedulePage.js"></script>
+</body>
+</html>

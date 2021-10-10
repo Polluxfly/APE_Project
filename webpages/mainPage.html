@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Form</title>
-    <link rel='stylesheet' href='loginStyle.css'>
+    <link rel='stylesheet' href='mainStyle.css'>
 </head>
 <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
@@ -18,43 +18,25 @@
     <header>
         <h1>Swiss Hotel Management System</h1>
     </header>
+    <br>     
     <div>
         <form>
-            <h1>Good Day xxx! Please view the schedule below</h1>
-            <label>Selected Week:</label>
-            <select id='selectedWeek'></select> 
-            <!-- <input type="text" id='userid' name='userid' required> -->
-            <br><br> 
-            <button type ='submit' onclick="SubmitUserInfo()">Refresh Page</button>       
-        </form>
-    </div>
-    <div>
-        <form>
-            <button id="EditScheduleBtn" type ='Edit'>Edit</button>           
-            <table id="scheduleTable" class="tg" onclick="GetCellLocation()">
+            <h1 id="headerText"></h1>
+            <button id="scheduleBtn"> Arrange schedule </button>
+            <button id="manageBtn"> Manage users </button>
+            <br><br>     
+            <table id="scheduleTable" class="tg">
                 <tr>
                     <td>Week Days\Shift & Departments</td>
                     <td>Shifts</td>
                     <td align="center" colspan="2">F&B</td>
                     <td>AC</td>
                 </tr>
-                <!-- <tr>
-                  <td align="center" rowspan="2">Monday</td>
-                  <td>Shift 1</td>
-                  <td>Name 1</td>
-                  <td>Name 2</td>
-                  <td>Name 1</td>
-                </tr>
-                <tr>
-                    <td>Shift 2</td>
-                    <td>Name 1</td>
-                    <td>Name 2</td>
-                    <td>Name 1</td>
-                </tr> -->
+
             </table>   
         </form>
         <form>
-            <table id="staffTable" class="tg" onclick="GetCellLocation()">
+            <table id="staffTable" class="tg">
                 <tr>
                     <td>Staff Name</td>
                     <td>Skill</td>

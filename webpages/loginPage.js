@@ -1,9 +1,8 @@
 LoadUserName();
 
 async function LoadUserName() {
-  console.log("fine")
     try {
-      let url = '/userInfo/all';
+      let url = '/data/userinfo';
        const response = await fetch(url);
       if (!response.ok)
         throw response;
@@ -23,7 +22,14 @@ async function LoadUserName() {
 
 function SubmitUserInfo()
 {
-  res
-  console.log("hitted");
-}
+  userNameList = document.getElementById("userName");
+  if (userNameList.selectedIndex==0){
+    alert("Invalid Selection")
+    return;
+  }
+  
+  selectedUserName = userNameList.options[userNameList.selectedIndex].text;
 
+  window.location = `/mainPage.html#${selectedUserName}`;
+  console.log(selectedUserName);
+}

@@ -27,10 +27,9 @@ app.get('/main', (req, res) => {
     res.sendFile('./webpages/mainPage.html', { root: __dirname });
         });
 
-
 // start the server
 server.listen(port, () => {
     console.log('Server started:', `http://${ip.address()}:${port}` )
 });
 
-app.use('/userInfo', require('./webpages/utils.js'));
+app.use('/data', require('./webpages/utils.js'));
