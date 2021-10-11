@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Form</title>
+    <link rel='stylesheet' href='mainStyle.css'>
+</head>
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-0lax{text-align:left;vertical-align:top}
+    </style>
+<body>
+    <header>
+        <h1>Swiss Hotel Management System</h1>
+    </header>
+    <br>     
+    <div>
+        <form>
+            <h1 id="headerText"></h1>
+        <form>
+            <table id="staffTable" class="tg">
+                <tr>
+                    <td>Staff Name</td>
+                    <td>Skill</td>
+                </tr>
+            </table>   
+            <div class="SelectedDiv">
+                <h2>Add New Stuff:</h2>
+                <b><label>Step 1. Please input Staff Name</label></b>
+                <input type="text" id="staffNameBox">
+                <br><br>
+                <b><label>Step 2. Please select trained Skill</label></b>
+                <select id="skillOption">
+                    <option>FB</option>
+                    <option>AC</option>
+                    <option>GAS</option>
+                </select>
+                <br><br>
+                <button onclick="AddNewUser()">Add new staff</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="adminUserMgrPage.js"></script>
+</body>
+</html>
