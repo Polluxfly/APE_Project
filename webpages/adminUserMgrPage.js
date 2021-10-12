@@ -7,40 +7,57 @@ async function LoadStaffInfo() {
       if (!response.ok)
         throw response;
       staffTable = document.getElementById("staffTable");
+      staffTable.innerHTML = "";
       data = await response.json();
       console.log(data)
-      let msg = new Option("Please select one ...");
 
-    var col = [];
-    for (var i = 1; i < data.length; i++) {
-        for (var key in data[i]) {
-            if (col.indexOf(key) === -1) {
-                col.push(key);
-            }
-        }
-    }
-    console.log(col)
+      var col = [];
+      for (var i = 1; i < data.length; i++) {
+          for (var key in data[i]) {
+              if (col.indexOf(key) === -1) {
+                  col.push(key);
+              }
+          }
+      }
+      console.log(col)
 
-    for (var i = 1; i < data.length; i++) {
+      for (var i = 1; i < data.length; i++) {
 
-        tr = staffTable.insertRow(-1)
-        for (var j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = data[i][col[j]];
-        }
-    }
+          tr = staffTable.insertRow(-1)
+          for (var j = 0; j < col.length; j++) {
+              var tabCell = tr.insertCell(-1);
+              tabCell.innerHTML = data[i][col[j]];
+          }
+      }
 
     } catch (e) {
       console.log(e);
     }
 }
 
-function AddNewUser()
+async function AddNewUser()
 {
-    console.log(2)
     userName = document.getElementById("staffNameBox").value
-    console.log(userName)
+    if(userName == undefined || userName == "")
+    {
+      alert("Please input valid user name");
+      return;
+    }
     skillList = document.getElementById("skillOption")
     selectedSkill =  skillList.options[skillList.selectedIndex].text;
-    console.log(`${userName} + ${selectedSkill}`)
+
+    try{
+      let url = `/data/addUser?name=${userName}&skill=${selectedSkill}`;
+      const response = await fetch(url);
+      if (!response.ok) 
+        throw response;
+      else
+      {
+        LoadStaffInfo();
+      }
+    }
+    catch (e) {
+      console.log(e);
+  }
 }
+

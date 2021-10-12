@@ -6,7 +6,7 @@ const url = require('url');
 const fs= require('fs');
  
 const jsonSource = './data/userInfo.json';
-const jsonSource1 = './data/schedule.json';
+const scheduleJsonSource = './data/schedule.json';
 
 router.get('/userinfo', function(req,res){
     console.log("1");
@@ -18,12 +18,26 @@ router.get('/userinfo', function(req,res){
 
 router.get('/schedule', function(req,res){
     console.log("1");
-    const dataBuffer = fs.readFileSync(jsonSource1);
+    const dataBuffer = fs.readFileSync(scheduleJsonSource);
     const dataJSON = dataBuffer.toString();
     const data = JSON.parse(dataJSON);
     res.send(dataJSON);
 })
 
+router.get('/addUser', function(req,res){
+    console.log(req.url);
+    const parsedUrl = url.parse(req.url, true);
+    let userName=parsedUrl.query.name;
+    let selectedSkill= parsedUrl.query.skill;
+    const dataBuffer = fs.readFileSync(jsonSource);
+    const dataJSON = dataBuffer.toString();
+    const data = JSON.parse(dataJSON);
+    data.push({"UserName":userName, "Skill":selectedSkill})
+    const updatedJSON = JSON.stringify(data);
+    fs.writeFileSync(jsonSource, updatedJSON);
+    console.log("1");
+    res.send(updatedJSON);
+})
 // router.get('/main', function(req,res){
 //     console.log(req.url);
 //     const parsedUrl = url.parse(req.url, true);

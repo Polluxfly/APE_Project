@@ -1,8 +1,1 @@
-[
-    {"UserName":"Admin", "Skill":"NULL"},
-    {"UserName":"PT", "Skill":"FB"},
-    {"UserName":"JL", "Skill":"GAS"},
-    {"UserName":"JX", "Skill":"AC"},
-    {"UserName":"Tiff", "Skill":"FB"},
-    {"UserName":"CP", "Skill":"GAS"}
-]
+[{"UserName":"Admin","Skill":"NULL"},{"UserName":"PT","Skill":"FB"},{"UserName":"JL","Skill":"GAS"},{"UserName":"JX","Skill":"AC"},{"UserName":"Tiff","Skill":"FB"},{"UserName":"CP","Skill":"GAS"},{"UserName":"Master","Skill":"AC"},{"UserName":"Cortana","Skill":"FB"}]
