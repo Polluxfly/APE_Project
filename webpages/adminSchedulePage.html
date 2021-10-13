@@ -20,7 +20,7 @@
     </header>
     <div>
         <form>
-            <h1>Good Day xxx! Please view the schedule below</h1>
+            <h1>Good Day Admin! Please view the schedule below</h1>
             <label>Selected Week:</label>
             <select id='selectedWeek'></select> 
             <!-- <input type="text" id='userid' name='userid' required> -->
@@ -31,12 +31,6 @@
     <div>
         <form>       
             <table id="scheduleTable" class="tg" onclick="GetCellLocation()">
-                <tr>
-                    <td>Week Days\Shift & Departments</td>
-                    <td>Shifts</td>
-                    <td align="center" colspan="2">FB</td>
-                    <td>AC</td>
-                </tr>
             </table>   
     
             <div class="SelectedDiv">
@@ -55,9 +49,9 @@
             <div class="SelectedDiv">
                 <b><label>Step 2. Please Select User in dropdown list to replace Cell</label></b>
                 <br>
-                <select id="userName" onchange="">
+                <select id="userName" onchange="selectOnChangeEvent()">
                 </select>
-                <br><br>
+                <br><br><br>
             </div>
         </form>
     </div>

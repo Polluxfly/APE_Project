@@ -58,6 +58,6 @@ async function AddNewUser()
     }
     catch (e) {
       console.log(e);
-  }
+    }
 }
 
