@@ -1,6 +1,7 @@
 isTableValid = true;
 
 LoadScheduleInfo();
+let CurrentJsonData = undefined
 async function LoadScheduleInfo() {
     try {
         let url = '/data/schedule';
@@ -11,6 +12,7 @@ async function LoadScheduleInfo() {
         scheduleTable.innerHTML = "";
         data = await response.json();
         console.log(data)
+        CurrentJsonData = data;
         let msg = new Option("Please select a Cell first");
         userGroup = document.getElementById("userName");
         userGroup.options.add(msg);
@@ -50,7 +52,7 @@ async function LoadScheduleInfo() {
             ShiftText.innerHTML = "1";
             for (var j = 1; j < 4; j++) {
                 var colContent = firstTr.insertCell(-1);
-                if(data[i][col[j]] == "Null")
+                if(data[i][col[j]] == "Empty")
                 {
                     colContent.style.backgroundColor="orange";
                     isTableValid = false;
@@ -67,7 +69,7 @@ async function LoadScheduleInfo() {
             ShiftText.innerHTML = "2";
             for (var k = 4; k < 7; k++) {
                 var colContent = secondTr.insertCell(-1);
-                if(data[i][col[k]] == "Null")
+                if(data[i][col[k]] == "Empty")
                 {
                     colContent.style.backgroundColor="orange";
                     isTableValid = false;
@@ -86,27 +88,6 @@ async function LoadScheduleInfo() {
     }
 }
 
-async function LoadUserName() {
-    try {
-      let url = '/data/userinfo';
-       const response = await fetch(url);
-      if (!response.ok)
-        throw response;
-      userGroup = document.getElementById("userName");
-      data = await response.json();
-      console.log(data)
-      let msg = new Option("Please select one ...");
-      userGroup.options.add(msg)
-      for (let i in data){
-        let newUser = new Option(data[i].UserName);
-        userGroup.options.add(newUser)
-      }
-    } catch (e) {
-      console.log(e);
-    }
-}
-
-let isCurrentSelectedCellValid = true;
 let SelectedCell = undefined;
 
 function GetCellLocation()
@@ -130,8 +111,7 @@ function GetCellLocation()
                 //  console.log(`Selected Row Index: ${this.rowIndex}`)
                 //  console.log(`Selected Col Index: ${this.positionIndex}`)
                 console.log(table.rows[this.rowIndex].cells[this.positionIndex].innerText)
-                isSelectedCellValid(this.rowIndex, this.positionIndex);
-                if(isCurrentSelectedCellValid)
+                if(isSelectedCellValid(this.rowIndex, this.positionIndex))
                 {
                     getRowHeaderAndColHeaderText(table, this.rowIndex, this.positionIndex)
                     highlightSelectedCellColor(table.rows[this.rowIndex].cells[this.positionIndex]);
@@ -146,11 +126,11 @@ function GetCellLocation()
 function isSelectedCellValid(rowIndex, colIndex)
 {
     if(rowIndex == 0 || colIndex == 0)
-        isCurrentSelectedCellValid = false;   
+        return false;   
     else if(rowIndex % 2 != 0 && colIndex == 1)
-        isCurrentSelectedCellValid = false;
+        return false;
     else
-        isCurrentSelectedCellValid = true;
+        return true;
     
 }
 
@@ -160,7 +140,7 @@ function highlightSelectedCellColor(currentSelectedCell)
     {
         if(SelectedCell != undefined)
         {
-            if(SelectedCell.innerText == "Null")
+            if(SelectedCell.innerText == "Empty")
                 SelectedCell.style.backgroundColor = "orange";
             else
                 SelectedCell.style.backgroundColor = "gainsboro";
@@ -258,13 +238,24 @@ async function LoadUserName() {
       data = await response.json();
      //console.log(data)
      // console.log(SelectedDepartment)
+      availableNameDictionary= {}
       for (let i in data){
-        //console.log(data[i].Skill)
+        
         if(data[i].Skill != SelectedDepartment && data[i].Skill != "GAS")
             continue;
 
-        let newUser = new Option(`${data[i].UserName}-${data[i].Skill}`);
-        //console.log(newUser)
+        availableNameDictionary[data[i].UserName] = data[i].Skill;
+        
+      }
+      console.log(availableNameDictionary)
+
+      for(let name in availableNameDictionary)
+      {
+        if(IsUserWorkedTooLong(name, availableNameDictionary[name]))
+            continue;
+        
+        let newUser = new Option(`${name}-${availableNameDictionary[name]}`);
+    //     //console.log(newUser)
         userGroup.options.add(newUser)
       }
     } catch (e) {
@@ -280,7 +271,7 @@ function cleanDropDownList(userGroup)
     }
 }
 
-
+let JsonColIndex = undefined;
 async function selectOnChangeEvent()
 {
     userList = document.getElementById("userName");
@@ -311,7 +302,7 @@ async function selectOnChangeEvent()
     }
     console.log(JsonPosition)
     console.log(colIndex)
-
+    JsonColIndex = colIndex;
     try
     {
         let url = `/data/updateSchedule?day=${SelectedDay}&position=${colIndex}&name=${selectedUser}`
@@ -331,4 +322,110 @@ async function selectOnChangeEvent()
 
     console.log(SelectedDay)
     console.log(JsonPosition);
+}
+
+
+//Some bugs here since we only check 1 up and 1 down for weekdays, means there is 
+//a risk 1 1 0 1 and code cannot detect the 2 days infront, need to improve the logic
+function IsUserWorkedTooLong(name, skill)
+{
+    var col = [];
+    for (var i = 1; i < CurrentJsonData.length; i++) {
+        for (var key in CurrentJsonData[i]) {
+            if (col.indexOf(key) === -1) {
+                col.push(key);
+            }
+        }
+    }
+
+    for (var i = 0; i < CurrentJsonData.length; i++){
+        //Step 1. Do Search in Current Day first
+        if(CurrentJsonData[i].Day == SelectedDay){
+            for(var j = 0; j < col.length; j++)
+            {
+                if(CurrentJsonData[i][col[j]] == name)
+                {
+                    return true;
+                }
+            }
+        }
+
+        //Step 2. If Current Day does not have the same name, proceed to neighbor days
+        //Monday Case
+        if(SelectedDay == "Monday" && CurrentJsonData[i].Day == SelectedDay)
+        {
+            let nameCount = 0
+            for(var j = 0; j < col.length; j++)
+            {        
+                //Finding Tuesday
+                if(CurrentJsonData[i + 1][col[j]] == name)
+                {
+                    nameCount++;
+                }
+                //Finding Wednesday
+                if(CurrentJsonData[i + 2][col[j]] == name)
+                {
+                    nameCount++;
+                } 
+            }
+
+            if(nameCount > 1)
+                return true;
+
+            return false;
+        }
+
+        //Sunday Case
+        if(SelectedDay == "Sunday" && CurrentJsonData[i].Day == SelectedDay)
+        {
+            console.log(CurrentJsonData[i])
+            let nameCount = 0
+            for(var j = 0; j < col.length; j++)
+            {        
+                //Finding Sat
+                if(CurrentJsonData[i - 1][col[j]] == name)
+                {
+                    nameCount++;
+                }
+                //Finding Fri
+                if(CurrentJsonData[i - 2][col[j]] == name)
+                {
+                    nameCount++;
+                } 
+            }
+
+            if(nameCount > 1)
+                return true;
+
+            return false;
+        }
+
+        //Step 3. Normal Cases
+        if(CurrentJsonData[i].Day == SelectedDay)
+        {
+            console.log(CurrentJsonData[i])
+            let nameCount = 0
+            for(var j = 0; j < col.length; j++)
+            {        
+                //Finding Sat
+                if(CurrentJsonData[i + 1][col[j]] == name)
+                {
+                    nameCount++;
+                }
+                //Finding Fri
+                if(CurrentJsonData[i - 1][col[j]] == name)
+                {
+                    nameCount++;
+                } 
+            }
+
+            if(nameCount > 1)
+                return true;
+
+            return false;
+        }
+
+        //Step 4. Check if working day exceed 5 days
+
+    }
 }
