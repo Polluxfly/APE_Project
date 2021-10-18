@@ -27,6 +27,18 @@ async function LoadStaffInfo() {
           for (var j = 0; j < col.length; j++) {
               var tabCell = tr.insertCell(-1);
               tabCell.innerHTML = data[i][col[j]];
+              if(data[i][col[j]] == "FB")
+              {
+                tabCell.style.backgroundColor="skyblue";
+              }
+              else if(data[i][col[j]] == "AC")
+              {
+                tabCell.style.backgroundColor="orange";
+              }
+              else if(data[i][col[j]] == "GAS")
+              {
+                tabCell.style.backgroundColor="greenyellow";
+              }      
           }
       }
 

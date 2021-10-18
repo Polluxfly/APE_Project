@@ -1,8 +1,11 @@
 isTableValid = true;
+userDictionary = {};
 
 LoadScheduleInfo();
 let CurrentJsonData = undefined
 async function LoadScheduleInfo() {
+    
+    LoadUserName(true);
     try {
         let url = '/data/schedule';
          const response = await fetch(url);
@@ -15,7 +18,10 @@ async function LoadScheduleInfo() {
         CurrentJsonData = data;
         let msg = new Option("Please select a Cell first");
         userGroup = document.getElementById("userName");
+        cleanDropDownList(userGroup);
         userGroup.options.add(msg);
+
+        console.log(userDictionary)
         var col = [];
         for (var i = 1; i < data.length; i++) {
             for (var key in data[i]) {
@@ -54,12 +60,20 @@ async function LoadScheduleInfo() {
                 var colContent = firstTr.insertCell(-1);
                 if(data[i][col[j]] == "Empty")
                 {
-                    colContent.style.backgroundColor="orange";
+                    colContent.style.backgroundColor="gainsboro";
                     isTableValid = false;
                 }
-                else
+                else if(userDictionary[data[i][col[j]]] == "FB")
                 {
-                    colContent.style.backgroundColor="gainsboro";
+                    colContent.style.backgroundColor="skyblue";
+                }
+                else if(userDictionary[data[i][col[j]]] == "AC")
+                {
+                    colContent.style.backgroundColor="orange";
+                }
+                else if(userDictionary[data[i][col[j]]] == "GAS")
+                {
+                    colContent.style.backgroundColor="greenyellow";
                 }
 
                 colContent.innerHTML = data[i][col[j]];
@@ -71,13 +85,21 @@ async function LoadScheduleInfo() {
                 var colContent = secondTr.insertCell(-1);
                 if(data[i][col[k]] == "Empty")
                 {
-                    colContent.style.backgroundColor="orange";
+                    colContent.style.backgroundColor="gainsboro";
                     isTableValid = false;
                 }
-                else
+                else if(userDictionary[data[i][col[k]]] == "FB")
                 {
-                    colContent.style.backgroundColor="gainsboro";
-                }        
+                    colContent.style.backgroundColor="skyblue";
+                }
+                else if(userDictionary[data[i][col[k]]] == "AC")
+                {
+                    colContent.style.backgroundColor="orange";
+                }
+                else if(userDictionary[data[i][col[k]]] == "GAS")
+                {
+                    colContent.style.backgroundColor="greenyellow";
+                }      
 
                 colContent.innerHTML = data[i][col[k]];
             }
@@ -92,9 +114,9 @@ let SelectedCell = undefined;
 
 function GetCellLocation()
 {
+    let isCellOnclicked = false;
     // Track onclicks on all td elements
     var table = document.getElementsByTagName("table")[0];
-
     // Get all the rows in the table
     var rows = table.getElementsByTagName("tr");
     console.log("col")
@@ -111,12 +133,13 @@ function GetCellLocation()
                 //  console.log(`Selected Row Index: ${this.rowIndex}`)
                 //  console.log(`Selected Col Index: ${this.positionIndex}`)
                 console.log(table.rows[this.rowIndex].cells[this.positionIndex].innerText)
-                if(isSelectedCellValid(this.rowIndex, this.positionIndex))
+                if(!isCellOnclicked && isSelectedCellValid(this.rowIndex, this.positionIndex))
                 {
                     getRowHeaderAndColHeaderText(table, this.rowIndex, this.positionIndex)
                     highlightSelectedCellColor(table.rows[this.rowIndex].cells[this.positionIndex]);
-                    LoadUserName()
+                    LoadUserName(false)
                     SelectedCell = table.rows[this.rowIndex].cells[this.positionIndex];
+                    isCellOnclicked = true;
                 }
             }
         }
@@ -134,6 +157,7 @@ function isSelectedCellValid(rowIndex, colIndex)
     
 }
 
+let dumpColor = undefined
 function highlightSelectedCellColor(currentSelectedCell)
 {
     if(currentSelectedCell != SelectedCell)
@@ -141,12 +165,15 @@ function highlightSelectedCellColor(currentSelectedCell)
         if(SelectedCell != undefined)
         {
             if(SelectedCell.innerText == "Empty")
-                SelectedCell.style.backgroundColor = "orange";
-            else
                 SelectedCell.style.backgroundColor = "gainsboro";
+            else
+                SelectedCell.style.backgroundColor = dumpColor;
         }
-        currentSelectedCell.style.backgroundColor = "chartreuse";
+        dumpColor = currentSelectedCell.style.backgroundColor
+        console.log(dumpColor)
+        currentSelectedCell.style.backgroundColor = "yellow";
     }
+    
 }
 
 SelectedDay = undefined;
@@ -225,7 +252,7 @@ function getRowHeaderAndColHeaderText(table, rowIndex, colIndex)
     // console.log(`Col header: ${colIndex}`)
 }
 
-async function LoadUserName() {
+async function LoadUserName(isFirstRefresh) {
     try {
       let url = '/data/userinfo';
        const response = await fetch(url);
@@ -234,10 +261,23 @@ async function LoadUserName() {
       userGroup = document.getElementById("userName");
       cleanDropDownList(userGroup);
       let msg = new Option("Please select from below");
+      let emptyUser = new Option("Empty");
       userGroup.options.add(msg)
+      userGroup.options.add(emptyUser)
       data = await response.json();
-     //console.log(data)
-     // console.log(SelectedDepartment)
+    
+      console.log(data)
+      if(isFirstRefresh)
+      {
+        for (let i in data)
+        {
+            if(data[i].UserName == "Admin")
+                continue;
+            userDictionary[data[i].UserName] = data[i].Skill; 
+        }
+        return;
+      }
+
       availableNameDictionary= {}
       for (let i in data){
         
@@ -338,6 +378,7 @@ function IsUserWorkedTooLong(name, skill)
         }
     }
 
+    console.log(name) 
     for (var i = 0; i < CurrentJsonData.length; i++){
         //Step 1. Do Search in Current Day first
         if(CurrentJsonData[i].Day == SelectedDay){
@@ -345,7 +386,9 @@ function IsUserWorkedTooLong(name, skill)
             {
                 if(CurrentJsonData[i][col[j]] == name)
                 {
+                    console.log("Case 1") 
                     return true;
+
                 }
             }
         }
@@ -368,7 +411,7 @@ function IsUserWorkedTooLong(name, skill)
                     nameCount++;
                 } 
             }
-
+            console.log("Case 2") 
             if(nameCount > 1)
                 return true;
 
@@ -393,7 +436,7 @@ function IsUserWorkedTooLong(name, skill)
                     nameCount++;
                 } 
             }
-
+            console.log("Case 3") 
             if(nameCount > 1)
                 return true;
 
@@ -403,29 +446,65 @@ function IsUserWorkedTooLong(name, skill)
         //Step 3. Normal Cases
         if(CurrentJsonData[i].Day == SelectedDay)
         {
-            console.log(CurrentJsonData[i])
-            let nameCount = 0
+            let smallRangeNameCount = 0
+            let biggerRangeNameCount = 0
             for(var j = 0; j < col.length; j++)
             {        
-                //Finding Sat
+               // console.log(CurrentJsonData[i + 1][col[j]])
+                //Finding 1 day before
                 if(CurrentJsonData[i + 1][col[j]] == name)
                 {
-                    nameCount++;
+                    //console.log(`${name} 1 day after`)  
+                    smallRangeNameCount++;
                 }
-                //Finding Fri
+                //Finding 1 day after 
                 if(CurrentJsonData[i - 1][col[j]] == name)
                 {
-                    nameCount++;
+                    //console.log(`${name} 1 day before`)  
+                    smallRangeNameCount++;
+                }
+ 
+                console.log(smallRangeNameCount)          
+                if(smallRangeNameCount > 1)
+                {
+                    //console.log(`${name} Case 4`)  
+                    return true;
+                }
+
+                if(i + 2 < col.length && CurrentJsonData[i + 2][col[j]] == name)
+                {
+                    //console.log(`${name} 2 day after`)  
+                    biggerRangeNameCount++;
+                }
+                if(i - 2 >= 0 && CurrentJsonData[i - 2][col[j]] == name)
+                {
+                    //console.log(`${name} 2 day before`) 
+                    biggerRangeNameCount++;
                 } 
+                
+                console.log(biggerRangeNameCount)
+                if(SelectedDay == "Tuesday" || SelectedDay == "Saturday")
+                {
+                    if(biggerRangeNameCount + smallRangeNameCount > 2)
+                    {
+                       // console.log(`${name} Case 5`) 
+                        return true; 
+                    }
+
+                }
+                else
+                {
+                    if(biggerRangeNameCount + smallRangeNameCount > 3)
+                    {
+                        //console.log(`${name} Case 6`) 
+                        return true; 
+                    }
+                }
             }
-
-            if(nameCount > 1)
-                return true;
-
+            //console.log(`${name} Case 7`) 
             return false;
         }
 
-        //Step 4. Check if working day exceed 5 days
 
     }
 }
