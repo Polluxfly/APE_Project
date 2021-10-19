@@ -3,9 +3,7 @@ const express = require('express');
 const router = express.Router();
 const url = require('url');
 const fs= require('fs');
-const path = require('path')
-const _ = require('underscore')
- 
+
 const jsonSource = './data/userInfo.json';
 const scheduleJsonSource = './data/schedule.json';
 
@@ -44,7 +42,6 @@ router.get('/parseSchedule', function(req,res){
     }
     else
     {
-        console.log("fileName")
         targetFile = scheduleJsonSource
     }
     const dataBuffer = fs.readFileSync(targetFile);
