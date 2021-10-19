@@ -1,18 +1,17 @@
 isTableValid = true;
 userDictionary = {};
+pastWeekSchedulesList = {};
 
-LoadScheduleInfo();
 let CurrentJsonData = undefined
-async function LoadScheduleInfo() {
-    
+InitializeSchedule()
+async function InitializeSchedule()
+{
     LoadUserName(true);
     try {
         let url = '/data/schedule';
          const response = await fetch(url);
         if (!response.ok)
           throw response;
-        scheduleTable = document.getElementById("scheduleTable");
-        scheduleTable.innerHTML = "";
         data = await response.json();
         console.log(data)
         CurrentJsonData = data;
@@ -20,8 +19,31 @@ async function LoadScheduleInfo() {
         userGroup = document.getElementById("userName");
         cleanDropDownList(userGroup);
         userGroup.options.add(msg);
+        LoadScheduleInfo(data)
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
 
-        console.log(userDictionary)
+
+function LoadScheduleInfo(data) {  
+    console.log(isPreviousVersionNow)
+    if(isPreviousVersionNow)
+    {
+        document.getElementById("functionDiv1").style.display="none";
+        document.getElementById("functionDiv2").style.display="none";
+    }
+    // else
+    // {
+    //     document.getElementById("functionDiv1").style.display="block";
+    //     document.getElementById("functionDiv2").style.display="block";
+    // }
+    try {
+        scheduleTable = document.getElementById("scheduleTable");
+        scheduleTable.innerHTML = "";
+        console.log(data)
+
         var col = [];
         for (var i = 1; i < data.length; i++) {
             for (var key in data[i]) {
@@ -110,6 +132,33 @@ async function LoadScheduleInfo() {
     }
 }
 
+getPastWeekSchedules()
+async function getPastWeekSchedules(){
+    try
+    {
+        let url = '/data/pastSchedules';
+        const response = await fetch(url);
+        if (!response.ok)
+            throw response;
+        selectedWeek = document.getElementById("selectedWeek");
+        cleanDropDownList(selectedWeek)
+        let msg = new Option("Please select from below")
+        selectedWeek.options.add(msg)
+        data = await response.json();
+        console.log(data)
+
+        for(let i in data)
+        {
+            fileName = data[i].split('.')[0]
+            newOption = new Option(fileName)
+            selectedWeek.options.add(newOption)
+        }
+
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
 let SelectedCell = undefined;
 
 function GetCellLocation()
@@ -353,7 +402,7 @@ async function selectOnChangeEvent()
         else
         {
             console.log("SelectedDay")
-            LoadScheduleInfo();
+            LoadScheduleInfo(CurrentJsonData);
         }
     }
     catch (e) {
@@ -364,6 +413,36 @@ async function selectOnChangeEvent()
     console.log(JsonPosition);
 }
 
+let isPreviousVersionNow = false;
+async function onRefreshSchedule()
+{
+    selectionList = document.getElementById("selectedWeek");
+    if(selectionList.selectedIndex == 0)
+    {
+        return;
+    }
+
+    selectedItem = `${selectionList.options[selectionList.selectedIndex].text}.json`;
+    isPreviousVersionNow = true;
+
+    try
+    {
+        let url = `/data/parseSchedule?fileName=${selectedItem}`
+        const response = await fetch(url);
+        if (!response.ok) 
+          throw response;
+          
+        else
+        {        
+            data = await response.json();
+            LoadScheduleInfo(data);
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+}
 
 //Some bugs here since we only check 1 up and 1 down for weekdays, means there is 
 //a risk 1 1 0 1 and code cannot detect the 2 days infront, need to improve the logic
@@ -446,60 +525,56 @@ function IsUserWorkedTooLong(name, skill)
         //Step 3. Normal Cases
         if(CurrentJsonData[i].Day == SelectedDay)
         {
-            let smallRangeNameCount = 0
-            let biggerRangeNameCount = 0
+            let beforeSelectedDay = 0
+            let afterSelectedDay = 0
+            let neighborBefore = false;
+            let neighborAfter = false;
             for(var j = 0; j < col.length; j++)
             {        
                // console.log(CurrentJsonData[i + 1][col[j]])
-                //Finding 1 day before
-                if(CurrentJsonData[i + 1][col[j]] == name)
-                {
-                    //console.log(`${name} 1 day after`)  
-                    smallRangeNameCount++;
-                }
+
                 //Finding 1 day after 
                 if(CurrentJsonData[i - 1][col[j]] == name)
                 {
                     //console.log(`${name} 1 day before`)  
-                    smallRangeNameCount++;
+                    beforeSelectedDay++;
+                    neighborBefore = true;
                 }
- 
-                console.log(smallRangeNameCount)          
-                if(smallRangeNameCount > 1)
+                if(i - 2 >= 0 && CurrentJsonData[i - 2][col[j]] == name)
+                {
+                    //console.log(`${name} 2 day before`) 
+                    beforeSelectedDay++;
+                } 
+    
+                if(beforeSelectedDay > 1)
                 {
                     //console.log(`${name} Case 4`)  
                     return true;
                 }
 
+                //Finding 1 day before
+                if(CurrentJsonData[i + 1][col[j]] == name)
+                {
+                    //console.log(`${name} 1 day after`)  
+                    afterSelectedDay++;
+                    neighborAfter = true
+                }
                 if(i + 2 < col.length && CurrentJsonData[i + 2][col[j]] == name)
                 {
                     //console.log(`${name} 2 day after`)  
-                    biggerRangeNameCount++;
+                    afterSelectedDay++;
                 }
-                if(i - 2 >= 0 && CurrentJsonData[i - 2][col[j]] == name)
-                {
-                    //console.log(`${name} 2 day before`) 
-                    biggerRangeNameCount++;
-                } 
-                
-                console.log(biggerRangeNameCount)
-                if(SelectedDay == "Tuesday" || SelectedDay == "Saturday")
-                {
-                    if(biggerRangeNameCount + smallRangeNameCount > 2)
-                    {
-                       // console.log(`${name} Case 5`) 
-                        return true; 
-                    }
 
-                }
-                else
+                if(afterSelectedDay > 1)
                 {
-                    if(biggerRangeNameCount + smallRangeNameCount > 3)
-                    {
-                        //console.log(`${name} Case 6`) 
-                        return true; 
-                    }
+                    return true;
                 }
+
+                if(neighborAfter && neighborBefore)
+                {
+                    return true;
+                }
+
             }
             //console.log(`${name} Case 7`) 
             return false;

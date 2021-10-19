@@ -3,9 +3,21 @@ const express = require('express');
 const router = express.Router();
 const url = require('url');
 const fs= require('fs');
+const path = require('path')
+const _ = require('underscore')
  
 const jsonSource = './data/userInfo.json';
 const scheduleJsonSource = './data/schedule.json';
+
+router.get('/pastSchedules', function(req,res){
+    let fileList = []
+    fs.readdirSync('./data').forEach(file => {
+        if(file.startsWith('week_'))
+            fileList[fileList.length] = file;
+      });
+    
+    res.send(fileList)
+})
 
 router.get('/userinfo', function(req,res){
     const dataBuffer = fs.readFileSync(jsonSource);
@@ -14,10 +26,29 @@ router.get('/userinfo', function(req,res){
     res.send(dataJSON);
 })
 
+
 router.get('/schedule', function(req,res){
     const dataBuffer = fs.readFileSync(scheduleJsonSource);
     const dataJSON = dataBuffer.toString();
-    const data = JSON.parse(dataJSON);
+    res.send(dataJSON);
+})
+
+router.get('/parseSchedule', function(req,res){
+    const parsedUrl = url.parse(req.url, true);
+    let fileName=parsedUrl.query.fileName;
+    let targetFile = scheduleJsonSource
+    console.log(fileName)
+    if(fileName!=undefined || fileName!="")
+    {
+        targetFile = `./data/${fileName}`
+    }
+    else
+    {
+        console.log("fileName")
+        targetFile = scheduleJsonSource
+    }
+    const dataBuffer = fs.readFileSync(targetFile);
+    const dataJSON = dataBuffer.toString();
     res.send(dataJSON);
 })
 

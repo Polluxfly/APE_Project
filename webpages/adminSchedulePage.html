@@ -21,8 +21,8 @@
     <div>
         <form>
             <h1>Good Day Admin! Please view the schedule below</h1>
-            <label>Selected Week:</label>
-            <select id='selectedWeek'></select> 
+            <label>Selected Previous Week to review:</label>
+            <select id='selectedWeek' onchange="onRefreshSchedule()"></select> 
             <!-- <input type="text" id='userid' name='userid' required> -->
             <br><br> 
             <button type ='submit' onclick="SubmitUserInfo()">Refresh Page</button>       
@@ -33,7 +33,7 @@
             <table id="scheduleTable" class="tg" onclick="GetCellLocation()">
             </table>   
     
-            <div class="SelectedDiv">
+            <div class="SelectedDiv" id="functionDiv1">
                 <h2>Fill up staff names to the table:</h2>
                 <b><label>Step 1. Please Select Cell in table above</label></b>
                 <br>
@@ -46,12 +46,27 @@
                 <label>Selected Shift: </label>
                 <b><label id="selectedShiftLabel"></label></b>
             </div>
-            <div class="SelectedDiv">
+            <div class="SelectedDiv" id="functionDiv2">
                 <b><label>Step 2. Please Select User in dropdown list to replace Cell</label></b>
                 <br>
                 <select id="userName" onchange="selectOnChangeEvent()">
                 </select>
                 <br><br><br>
+            </div>
+            <div class="SelectedDiv" id="functionDiv3">
+                <b><label>Reference Table for Department</label></b>
+                <table>
+                    <tr>
+                        <td style="background-color: orange;">AC</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: skyblue;">FB</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: greenyellow;">GAS</td>
+                    </tr>
+                </table>
+                <br>
             </div>
         </form>
     </div>
