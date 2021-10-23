@@ -401,8 +401,9 @@ async function selectOnChangeEvent()
           throw response;
         else
         {
-            console.log("SelectedDay")
-            LoadScheduleInfo(CurrentJsonData);
+            data = await response.json()
+            CurrentJsonData = data
+            LoadScheduleInfo(data);
         }
     }
     catch (e) {
