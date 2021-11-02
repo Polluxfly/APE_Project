@@ -6,6 +6,22 @@ const fs= require('fs');
 
 const jsonSource = './data/userInfo.json';
 const scheduleJsonSource = './data/schedule.json';
+const defaultScheduleJsonSource = './data/defaultSchedule.json';
+
+router.get('/saveSchedules', function(req,res){
+    const dataBuffer = fs.readFileSync(scheduleJsonSource);
+    const dataJSON = dataBuffer.toString();
+    const data = JSON.parse(dataJSON);
+    const newJsonData = JSON.stringify(data);
+
+    fs.writeFile('./data/version_1.json', newJsonData, function(err) {
+        if(err) 
+            throw err;
+        console.log("done");
+    });
+
+    res.send(dataJSON);
+})
 
 router.get('/pastSchedules', function(req,res){
     let fileList = []

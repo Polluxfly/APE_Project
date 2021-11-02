@@ -28,17 +28,14 @@ async function InitializeSchedule()
 
 
 function LoadScheduleInfo(data) {  
+    isTableValid = true;
     console.log(isPreviousVersionNow)
     if(isPreviousVersionNow)
     {
         document.getElementById("functionDiv1").style.display="none";
         document.getElementById("functionDiv2").style.display="none";
     }
-    // else
-    // {
-    //     document.getElementById("functionDiv1").style.display="block";
-    //     document.getElementById("functionDiv2").style.display="block";
-    // }
+
     try {
         scheduleTable = document.getElementById("scheduleTable");
         scheduleTable.innerHTML = "";
@@ -580,7 +577,33 @@ function IsUserWorkedTooLong(name, skill)
             //console.log(`${name} Case 7`) 
             return false;
         }
-
-
     }
+}
+
+function IsScheduleValid()
+{
+    if(isTableValid)
+        console.log("Valid")
+    else
+        console.log("Not Valid")
+}
+
+async function PublishVersionFile()
+{
+    try
+    {
+        let url = `/data/saveSchedules`
+        const response = await fetch(url);
+        if (!response.ok) 
+          throw response;
+        else
+        {        
+            data = await response.json();
+            //LoadScheduleInfo(data);
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+
 }
