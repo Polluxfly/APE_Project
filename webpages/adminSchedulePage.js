@@ -696,6 +696,7 @@ async function PublishVersionFile()
         {        
             data = await response.json();
             document.location.reload(true)
+            alert("Version File Saved!")
         }
     }
     catch (e) {
