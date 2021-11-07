@@ -21,27 +21,31 @@
     <br>     
     <div>
         <form>
-            <h1 id="headerText"></h1>
-        <form>
             <table id="staffTable" class="tg">
                 <tr>
                     <td>Staff Name</td>
                     <td>Skill</td>
                 </tr>
-            </table>   
+            </table> 
+
             <div class="SelectedDiv">
-                <h2>Add New Stuff:</h2>
+                <h2>Add New Staff:</h2>
                 <b><label>Step 1. Please input Staff Name</label></b>
                 <input type="text" id="staffNameBox">
-                <br><br>
+            </div>
+            <div class="SelectedDiv">
                 <b><label>Step 2. Please select trained Skill</label></b>
+                <br>
                 <select id="skillOption">
                     <option>FB</option>
                     <option>AC</option>
                     <option>GAS</option>
                 </select>
-                <br><br>
-                <button onclick="AddNewUser()">Add new staff</button>
+            </div>
+            <br><br>
+            <div>
+                <button class="submitButton" onclick="AddNewUser()">Add new staff</button>
+                <a href="http://localhost:8080/mainPage.html#Admin" class="returnButton">Return to Main Page</a>
             </div>
         </form>
     </div>

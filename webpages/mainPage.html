@@ -22,18 +22,19 @@
     <div>
         <form>
             <h1 id="headerText"></h1>
-            <button id="scheduleBtn" type="button" onclick="window.location='/adminSchedulePage.html#Admin'">
+            <button id="scheduleBtn" class="submitButton" type="button" onclick="window.location='/adminSchedulePage.html#Admin'">
                  Arrange schedule 
             </button>
-            <button id="manageBtn" type="button" onclick="window.location='/adminUserMgrPage.html#Admin'">
+            <button id="manageBtn" class="versionButton" type="button" onclick="window.location='/adminUserMgrPage.html#Admin'">
                  Manage users   
             </button>
+            <a href="http://localhost:8080" class="logoutButton">Logout</a>
             <br><br>     
             <table id="scheduleTable" class="tg">
                 <tr>
                     <td>Week Days\Shift & Departments</td>
                     <td>Shifts</td>
-                    <td align="center" colspan="2">F&B</td>
+                    <td colspan="2">F&B</td>
                     <td>AC</td>
                 </tr>
 

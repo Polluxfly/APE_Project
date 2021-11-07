@@ -49,3 +49,108 @@ body{
     display:inline-block;
   }
 
+  .submitButton {
+    background-color:#44c767;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 25px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+  }
+  .submitButton:hover {
+    background-color:#5cbf2a;
+  }
+  .submitButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .versionButton {
+    background-color:#4591c7;
+    border-radius:28px;
+    border:1px solid #4591c7;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+  }
+  .versionButton:hover {
+    background-color:#4591c7;
+  }
+  .versionButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .returnButton {
+    background-color:#617582;
+    border-radius:28px;
+    border:1px solid #4d6a7d;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+  }
+  .returnButton:hover {
+    background-color:#5c676e;
+  }
+  .returnButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .currentPageButton {
+    background-color:#ffec64;
+    border-radius:28px;
+    border:1px solid #ffaa22;
+    display:inline-block;
+    cursor:pointer;
+    color:#333333;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #ffee66;
+  }
+  .currentPageButton:hover {
+    background-color:#ffab23;
+  }
+  .currentPageButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .logoutButton {
+    background-color:#c62d1f;
+    border-radius:28px;
+    border:1px solid #d02718;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #810e05;
+  }
+  .logoutButton:hover {
+    background-color:#f24437;
+  }
+  .logoutButton:active {
+    position:relative;
+    top:1px;
+  }
+  

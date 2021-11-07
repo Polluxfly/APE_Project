@@ -1,14 +1,16 @@
 isTableValid = true;
 userDictionary = {};
 pastWeekSchedulesList = {};
+let isPreviousVersionNow = false;
 
 let CurrentJsonData = undefined
 InitializeSchedule()
 async function InitializeSchedule()
 {
+
     LoadUserName(true);
     try {
-        let url = '/data/schedule';
+        let url = '/data/parseSchedule?fileName=schedule.json';
          const response = await fetch(url);
         if (!response.ok)
           throw response;
@@ -19,6 +21,13 @@ async function InitializeSchedule()
         userGroup = document.getElementById("userName");
         cleanDropDownList(userGroup);
         userGroup.options.add(msg);
+
+        if(isPreviousVersionNow)
+        {
+            isPreviousVersionNow = false;
+            console.log("really");
+        }
+
         LoadScheduleInfo(data)
     }
     catch (e) {
@@ -156,6 +165,36 @@ async function getPastWeekSchedules(){
         console.log(e);
     }
 }
+
+getVerionSchedules()
+async function getVerionSchedules(){
+    try
+    {
+        let url = '/data/versionSchedules';
+        const response = await fetch(url);
+        if (!response.ok)
+            throw response;
+        versionSelection = document.getElementById("versionSelection");
+        cleanDropDownList(versionSelection)
+        let msg = new Option("Please select from below")
+        versionSelection.options.add(msg)
+        data = await response.json();
+        console.log(data)
+
+        for(let i in data)
+        {
+            fileName = data[i].split('.')[0]
+            newOption = new Option(fileName)
+            versionSelection.options.add(newOption)
+        }
+
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+
 let SelectedCell = undefined;
 
 function GetCellLocation()
@@ -357,6 +396,27 @@ function cleanDropDownList(userGroup)
     }
 }
 
+async function CleanSchedule()
+{
+    if(confirm("Do you really want to RESET the whole shedule?"))
+    {
+        try{
+            let url = `/data/restSchedules`
+            const response = await fetch(url);
+            if (!response.ok) 
+              throw response;
+            else
+            {        
+                data = await response.json();
+                LoadScheduleInfo(data);
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+}
+
 let JsonColIndex = undefined;
 async function selectOnChangeEvent()
 {
@@ -411,18 +471,29 @@ async function selectOnChangeEvent()
     console.log(JsonPosition);
 }
 
-let isPreviousVersionNow = false;
-async function onRefreshSchedule()
+async function onRefreshSchedule(selection)
 {
-    selectionList = document.getElementById("selectedWeek");
+    console.log(selection)
+    selectionList = document.getElementById(`${selection}`);
     if(selectionList.selectedIndex == 0)
     {
         return;
     }
 
-    selectedItem = `${selectionList.options[selectionList.selectedIndex].text}.json`;
+    if(selection == "selectedWeek")
+    {
+        anotherSelectionList = document.getElementById('versionSelection');
+        anotherSelectionList.selectedIndex = 0;
+    }
+    else
+    {
+        anotherSelectionList = document.getElementById('selectedWeek');
+        anotherSelectionList.selectedIndex = 0;
+    }
+
     isPreviousVersionNow = true;
 
+    selectedItem = `${selectionList.options[selectionList.selectedIndex].text}.json`;
     try
     {
         let url = `/data/parseSchedule?fileName=${selectedItem}`
@@ -442,8 +513,6 @@ async function onRefreshSchedule()
 
 }
 
-//Some bugs here since we only check 1 up and 1 down for weekdays, means there is 
-//a risk 1 1 0 1 and code cannot detect the 2 days infront, need to improve the logic
 function IsUserWorkedTooLong(name, skill)
 {
     var col = [];
@@ -583,9 +652,35 @@ function IsUserWorkedTooLong(name, skill)
 function IsScheduleValid()
 {
     if(isTableValid)
-        console.log("Valid")
+    {
+        if(confirm("Are you sure you want to publish current table? \nOnce you submitted The current edited schedule will be cleaned"))
+        {
+            PublishSchedule();
+            alert("Schedule Published!");
+        }
+    }
     else
-        console.log("Not Valid")
+        alert("Schedule has not been fully fill-up, please try again after you finished schedule!")
+}
+
+async function PublishSchedule()
+{
+    try
+    {
+        let url = `/data/publishSchedules`
+        const response = await fetch(url);
+        if (!response.ok) 
+          throw response;
+        else
+        {        
+            data = await response.json();
+            document.location.reload(true)
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+
 }
 
 async function PublishVersionFile()
@@ -599,7 +694,7 @@ async function PublishVersionFile()
         else
         {        
             data = await response.json();
-            //LoadScheduleInfo(data);
+            document.location.reload(true)
         }
     }
     catch (e) {

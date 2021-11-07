@@ -21,21 +21,32 @@
     <div>
         <form>
             <h1>Good Day Admin! Please view the schedule below</h1>
-            <label>Selected Previous Week to review:</label>
-            <select id='selectedWeek' onchange="onRefreshSchedule()"></select> 
+            <label>Select Previous Week to review:</label>
+            <select id='selectedWeek' onchange="onRefreshSchedule('selectedWeek')"></select> 
+            <br>
+            <label>OR</label>
+            <br> 
+            <label>Select Saved Version to continue:</label>
+            <select id='versionSelection' onchange="onRefreshSchedule('versionSelection')"></select> 
             <!-- <input type="text" id='userid' name='userid' required> -->
             <br><br> 
-            <button type ='submit' onclick="IsScheduleValid()">Publish Schedule</button>
-            <button type ='submit' onclick="PublishVersionFile()">Save Current Version</button>          
+            <button type ='submit' class="submitButton" onclick="IsScheduleValid()">Publish Schedule</button>
+            <button type ='submit' class="versionButton" onclick="PublishVersionFile()">Save Current Version</button> 
+            <input type="button" class="currentPageButton" value="Main Version" onClick="document.location.reload(true)">  
+            <a href="http://localhost:8080/mainPage.html#Admin" class="returnButton">Return to Main Page</a>    
         </form>
     </div>
     <div>
         <form>       
             <table id="scheduleTable" class="tg" onclick="GetCellLocation()">
-            </table>   
-    
+            </table> 
+            <br>
+            <div>
+                <button type ='submit' class="logoutButton" onclick="CleanSchedule()">Reset Schedule</button>
+            </div>  
+
             <div class="SelectedDiv" id="functionDiv1">
-                <h2>Fill up staff names to the table:</h2>
+                <h2>Fill up staff to the table:</h2>
                 <b><label>Step 1. Please Select Cell in table above</label></b>
                 <br>
                 <label>Selected Day: </label>
@@ -52,7 +63,7 @@
                 <br>
                 <select id="userName" onchange="selectOnChangeEvent()">
                 </select>
-                <br><br><br>
+                <br><br>
             </div>
             <div class="SelectedDiv" id="functionDiv3">
                 <b><label>Reference Table for Department</label></b>
