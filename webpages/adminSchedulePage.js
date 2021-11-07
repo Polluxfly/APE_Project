@@ -43,6 +43,7 @@ function LoadScheduleInfo(data) {
     {
         document.getElementById("functionDiv1").style.display="none";
         document.getElementById("functionDiv2").style.display="none";
+        document.getElementById("resetButton").style.display="none";
     }
 
     try {
