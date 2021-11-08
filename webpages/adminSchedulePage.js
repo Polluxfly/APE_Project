@@ -675,7 +675,7 @@ async function PublishSchedule()
         else
         {        
             data = await response.json();
-            document.location.reload(true)
+            document.location = "/mainPage.html#Admin";
         }
     }
     catch (e) {
