@@ -7,6 +7,19 @@
  2. Email: polluxfly@outlook.com
 
 -----------------------------------SPLIT---------LINE-----------------------------------------------
+# Unfinshed Features 
+1. Display block-out columns in schedule due to Covid Situation: This is becauseat initial i did not notice that I should add those columns to the table as well. When i realized it, I have finished function to parse data from json and fill up to each cell inside table, also due to I used colspan & rowspan in html, it will be extremly hard for me to add them back.
+
+# Future planning
+1. Auto fillup schedule: I would like to develop a function to pre-fill the schedules and allow admin to view & modify, this will greatly save the time for admin to start from a new blank schedule.
+
+2. CRUD operations on user management system: For now admin only able to add new users but not able to modfiy/delete a user, if I have more time i would like to add this feature.
+
+3. Login System: It is super risky for now to just let user select user name then login, i would like to design a system to require user input password and do verification to avoid possible security risk.
+
+4. Better UI: This is the first time i write a whole web project! I wish i can have more modern UI design but i have no time to make it becomes true :( 
+
+-----------------------------------SPLIT---------LINE-----------------------------------------------
 
 This project has been developed and tested with Visual Studio Code.
 # 0. Structure of the project
@@ -60,7 +73,7 @@ Steps to test all functionalities for this project:
 # 3. Main Page - Normal User
 1. Users are able to Logout from current page by clicking Logout Button. - (Go back to #2)
 2. Users are able to READ schedule table(data from publishedSchedule.json) & user list.
-3. If schedule has been published by Admin, users will able to see their names been highlighted on tables to help to locate which day/shift they are supposed to be working.
+3. If schedule has been published by Admin, users will able to see their names been highlighted on tables to help to locate which day/shift they are supposed to be working. - Indivisual time table
 4. Welcome label are able to show user`s name based on selection from Login Page.
 
 # 4. Main Page - Admin
@@ -80,25 +93,42 @@ Steps to test all functionalities for this project:
 4. Admin is able to back to main page by clicking Return to main page Button. - (Go back to #4)
 
 # 6. Admin Schedule Page
-1. The schedule is pre-filled to convenient for those users who would like to test this project.
-2. Admin is able to Reset whole schedule to empty table by clicking Reset Schedule Button.
+1. The schedule.json is pre-filled to convenient for those users who would like to test this project.
+2. Admin is able to back to Main Page by clicking "Return to Main Page" button.
 
 # 6.1 Admin Schedule Page - Modify Schedule
 1. Select any cells under FB & AC columns (Only the cells under these columns consider valid cells), you will see the cell selected has been highlighted.
 2. Go to the bottom of the web page, you will see the data under "Step 1. Please Select Cell in table above" is changing with your selection of valid cells.
 3. Select drop down list from "Step 2. Please Select User in dropdown list to replace Cell" to expand it.
-4. The Name show up in dropdown list already been filtered & fulfilled with rules below indicated in assignment:
+4. The Name & Department show up in dropdown list already been filtered & fulfilled with rules below indicated in assignment:
     a. Employees cannot work on both shift in the same day.
     b. Employees who worked for 2 consequent days within a week must have a rest day after that.
     c. Employees may work less than 5 days in a week.
-    d. Only skill matched employees can be assigned to the corresponding group
+    d. Only skill matched employees can be assigned to the corresponding group.
 5. Select Name from dropdown list, the table will be immediately refresh will the updated data, also the data has been sent to json file(schedule.json)
 6. If the dropdown list only left Empty, means there is no available employees to deploy, admin might need to re-arrange the employees from recent days.
+7. Admin is able to click "Reset Schedule" button to clean all the data in Schedule.json
+8. Admin is able to according to the Reference Table at bottom to identify the color of department in table.
 
 # 6.2 Admin Schedule Page - Allow the planner a “view only” option for older versions of work copies
 1. Select the dropdown list after Label "Select Previous Week to review:"
 2. Select week_1 or week_2, you will see the schedule table`s content has changed based on selection.
 3. After selection of older version work copies, table is not allow to edit anymore.
-4. Click Main Version button to go back to the current schedule that you are editing.
+4. Click "Main Version" button to go back to the current schedule that you are editing.
 
-# 6.2 Admin Schedule Page - Save the work copy with version control
+# 6.3 Admin Schedule Page - Save the work copy with version control
+1. Admin is able to save the version copy by clicking Save "Current Version" button.
+2. After clicked button, browser will pop up an alert to remind user the version file has been successfully created & saved.
+3. Modify some cells in schedule to differentiate with version files.
+4. Select the dropdown list after Label "Select Saved Version to continue".
+5. In the dropdown list you will see the version_<fileId>, click it to load the version schedule.
+6. Click "Main Version" button to go back to current schedule.
+
+# 6.4 Admin Schedule Page - Publish Schedule to all users
+1. If Admin did not fill up all the cells then click "Publish Schedule" button, browser will popup an alert to remind user to fill up all cells first.
+2. After Admin filled up all cells and click "Publish Schedule" button, browser will popup an confirm to remind Admin the publish operation will do following:
+    a. Publish data from schedule.json to publishedSchedule.json
+    b. Clean all data in schedule.json
+    c. Remove all version_<fileId>.json
+3. After Admin clicked "OK" button, an alert will popup to remind admin the schedule has been published, and back to the Main Page.
+4. The Schedule in main page has been udpated with published schedule.
